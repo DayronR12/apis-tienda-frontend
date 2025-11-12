@@ -1,0 +1,109 @@
+:host {
+  display: block;
+}
+
+.formulario-producto {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem 2.5rem;
+  background: #0f172a;
+  color: #f8fafc;
+  width: min(700px, 95vw);
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.formulario-producto__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.formulario-producto__heading {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.formulario-producto__heading mat-icon {
+  font-size: 2.25rem;
+  color: rgba(94, 234, 212, 0.9);
+}
+
+.formulario-producto__heading h2 {
+  margin: 0;
+  font-size: 1.45rem;
+}
+
+.formulario-producto__heading p {
+  margin: 0.25rem 0 0;
+  font-size: 0.95rem;
+  color: rgba(226, 232, 240, 0.8);
+}
+
+.formulario-producto__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.formulario-producto__card {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 18px;
+  padding: 1.75rem;
+  box-shadow: 0 25px 60px -45px rgba(45, 212, 191, 0.6);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formulario-producto__card h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(248, 250, 252, 0.92);
+}
+
+.formulario-producto__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem 1.25rem;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.formulario-producto :where(.mat-mdc-form-field, .mat-mdc-text-field-wrapper) {
+  border-radius: 14px;
+}
+
+.formulario-producto__acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.formulario-producto__acciones button:first-child {
+  color: rgba(226, 232, 240, 0.85);
+  border-color: rgba(148, 163, 184, 0.35);
+}
+
+.formulario-producto__acciones button:last-child {
+  box-shadow: 0 15px 35px -20px rgba(59, 130, 246, 0.8);
+}
+
+@media (max-width: 600px) {
+  .formulario-producto {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .formulario-producto__card {
+    padding: 1.5rem;
+  }
+}
+

@@ -1,0 +1,50 @@
+<section class="detalle-producto">
+  <header>
+    <div class="titulo">
+      <mat-icon>inventory_2</mat-icon>
+      <div>
+        <h2>Detalle del producto</h2>
+        <p>ID {{ producto?.id ?? data.id }}</p>
+      </div>
+    </div>
+    <button mat-icon-button type="button" aria-label="Cerrar diálogo" (click)="cerrar()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <div *ngIf="estado === 'cargando'" class="estado estado--cargando">
+    <mat-spinner diameter="44"></mat-spinner>
+    <p>Cargando información...</p>
+  </div>
+
+  <div *ngIf="estado === 'exito'" class="contenido">
+    <article>
+      <h3>{{ producto?.nombre || 'Producto sin nombre' }}</h3>
+      <p class="marca">Marca: {{ producto?.marca || 'No registrada' }}</p>
+    </article>
+
+    <dl>
+      <div>
+        <dt>ID</dt>
+        <dd>{{ producto?.id ?? 'N/D' }}</dd>
+      </div>
+      <div>
+        <dt>Precio</dt>
+        <dd>{{ formatPrecio(producto?.precio) | currency : 'COP' : 'symbol-narrow' : '1.0-0' }}</dd>
+      </div>
+      <div>
+        <dt>Cantidad disponible</dt>
+        <dd>{{ producto?.cantidad ?? 0 }}</dd>
+      </div>
+    </dl>
+  </div>
+
+  <div *ngIf="estado === 'error'" class="estado estado--error">
+    <mat-icon>error_outline</mat-icon>
+    <p>No pudimos cargar los datos del producto. Inténtalo de nuevo más tarde.</p>
+  </div>
+
+  <footer>
+    <button mat-stroked-button type="button" (click)="cerrar()">Cerrar</button>
+  </footer>
+</section>
