@@ -1,0 +1,43 @@
+<section class="login">
+  <div class="login__card">
+    <header class="login__header">
+      <mat-icon>lock</mat-icon>
+      <div>
+        <h1>Bienvenido de nuevo</h1>
+        <p>Ingresa tus credenciales para acceder al panel.</p>
+      </div>
+    </header>
+
+    <form class="login__form" [formGroup]="formulario" (ngSubmit)="iniciarSesion()">
+      <mat-form-field appearance="fill">
+        <mat-label>Usuario</mat-label>
+        <input matInput formControlName="usuario" placeholder="tu.usuario" />
+        <mat-error *ngIf="controles.usuario.hasError('required')">
+          El usuario es obligatorio.
+        </mat-error>
+        <mat-error *ngIf="controles.usuario.hasError('minlength')">
+          Debe tener al menos 3 caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Contraseña</mat-label>
+        <input matInput formControlName="contrasena" placeholder="••••••••" type="password" />
+        <mat-error *ngIf="controles.contrasena.hasError('required')">
+          La contraseña es obligatoria.
+        </mat-error>
+        <mat-error *ngIf="controles.contrasena.hasError('minlength')">
+          Debe tener al menos 4 caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" type="submit">
+        Iniciar sesión
+      </button>
+    </form>
+
+    <footer class="login__footer">
+      <a routerLink="/">Volver al inicio</a>
+    </footer>
+  </div>
+</section>
