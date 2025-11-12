@@ -1,0 +1,82 @@
+<section class="formulario-producto">
+  <header class="formulario-producto__header">
+    <div class="formulario-producto__heading">
+      <mat-icon>playlist_add</mat-icon>
+      <div>
+        <h2>{{ titulo }}</h2>
+        <p>{{ descripcion }}</p>
+      </div>
+    </div>
+    <button mat-icon-button type="button" aria-label="Cerrar" (click)="cerrar()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <form [formGroup]="formulario" (ngSubmit)="guardar()" class="formulario-producto__form">
+    <section class="formulario-producto__card">
+      <h3>Datos generales</h3>
+      <div class="formulario-producto__grid">
+        <mat-form-field appearance="fill">
+          <mat-label>Nombre*</mat-label>
+          <input matInput placeholder="Ej. Crema hidratante" formControlName="nombre" />
+          <mat-error *ngIf="controles.nombre?.hasError('required')">
+            El nombre es obligatorio.
+          </mat-error>
+          <mat-error *ngIf="controles.nombre?.hasError('minlength')">
+            Debe tener al menos 3 caracteres.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Marca*</mat-label>
+          <input matInput placeholder="Ej. Nivea" formControlName="marca" />
+          <mat-error *ngIf="controles.marca?.hasError('required')">
+            La marca es obligatoria.
+          </mat-error>
+          <mat-error *ngIf="controles.marca?.hasError('minlength')">
+            Debe tener al menos 2 caracteres.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Cantidad*</mat-label>
+          <input matInput type="number" min="0" formControlName="cantidad" />
+          <mat-error *ngIf="controles.cantidad?.hasError('required')">
+            La cantidad es obligatoria.
+          </mat-error>
+          <mat-error *ngIf="controles.cantidad?.hasError('min')">
+            Debe ser un valor mayor o igual a 0.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Precio*</mat-label>
+          <span matTextPrefix>$&nbsp;</span>
+          <input matInput type="number" min="0" formControlName="precio" />
+          <mat-error *ngIf="controles.precio?.hasError('required')">
+            El precio es obligatorio.
+          </mat-error>
+          <mat-error *ngIf="controles.precio?.hasError('min')">
+            Debe ser un valor mayor o igual a 0.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Categoría (opcional)</mat-label>
+          <input matInput type="number" min="1" formControlName="categoria_id" />
+          <mat-error *ngIf="controles.categoria_id?.hasError('min')">
+            Debe ser un valor mayor o igual a 1.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </section>
+
+    <footer class="formulario-producto__acciones">
+      <button mat-stroked-button type="button" (click)="cerrar()">Cancelar</button>
+      <button mat-flat-button color="primary" type="submit">
+        {{ confirmLabel }}
+      </button>
+    </footer>
+  </form>
+</section>
+

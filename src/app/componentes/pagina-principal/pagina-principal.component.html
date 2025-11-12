@@ -1,7 +1,148 @@
 <section class="pagina-principal">
-  <h1>¡Bienvenido a Apis Tienda!</h1>
-  <p>
-    Nos alegra que estés aquí. Explora nuestras funcionalidades y descubre cómo podemos ayudarte
-    a gestionar tu tienda de forma sencilla.
-  </p>
+  <div class="acciones-principales">
+  </div>
+  <div class="hero">
+    <h1>¡Bienvenido a Apis Tienda!</h1>
+    <p>
+      Impulsa tu operación con herramientas pensadas para equipos modernos. Descubre todo lo que puedes gestionar
+      desde una sola plataforma.
+    </p>
+    <button
+      mat-raised-button
+      color="accent"
+      type="button"
+      (click)="agregarProducto()"
+      [disabled]="agregando || cargando"
+    >
+      <mat-icon *ngIf="!agregando; else iconoCargando">add_circle</mat-icon>
+      <ng-template #iconoCargando>
+        <mat-icon class="acciones-principales__spinner">hourglass_top</mat-icon>
+      </ng-template>
+      {{ agregando ? 'Guardando...' : 'Agregar producto' }}
+    </button>  </div>
+
+  <ng-container *ngIf="!cargando; else productosCargando">
+    <ng-container *ngIf="!errorCarga; else productosError">
+      <section class="productos-section" *ngIf="productos$ | async as productos" [class.productos-section--empty]="!productos.length">
+      <header>
+        <div class="productos-section__heading">
+          <mat-icon>inventory_2</mat-icon>
+          <div>
+            <h2>Inventario disponible</h2>
+            <p>Visualiza en tiempo real los artículos registrados en tu tienda.</p>
+          </div>
+        </div>
+        <span class="productos-section__badge">
+          {{ productos.length || 0 }} {{ productos.length === 1 ? 'artículo' : 'artículos' }}
+        </span>
+      </header>
+      <div class="productos-grid" *ngIf="productos.length; else productosVacios">
+        <mat-card
+          class="producto-card"
+          *ngFor="let producto of productos; trackBy: trackByProducto"
+        >
+          <div class="producto-card__glow"></div>
+          <mat-card-header>
+            <div mat-card-avatar class="producto-card__avatar">
+              <mat-icon>shopping_bag</mat-icon>
+            </div>
+            <mat-card-title>{{ producto.nombre || 'Producto sin nombre' }}</mat-card-title>
+            <mat-card-subtitle>{{ producto.marca || 'Marca no registrada' }}</mat-card-subtitle>
+            <div class="producto-card__acciones" *ngIf="producto.id !== undefined && producto.id !== null">
+              <button
+                mat-icon-button
+                type="button"
+                class="producto-card__edit"
+                (click)="editarProducto(producto)"
+                [disabled]="estaEditando(producto) || estaEliminando(producto)"
+                aria-label="Editar producto"
+              >
+                <ng-container *ngIf="estaEditando(producto); else iconoEditar">
+                  <mat-icon class="producto-card__delete--loading">hourglass_top</mat-icon>
+                </ng-container>
+                <ng-template #iconoEditar>
+                  <mat-icon>edit</mat-icon>
+                </ng-template>
+              </button>
+
+              <button
+                mat-icon-button
+                type="button"
+                class="producto-card__delete"
+                (click)="eliminarProducto(producto)"
+                [disabled]="estaEliminando(producto)"
+                aria-label="Eliminar producto"
+              >
+                <ng-container *ngIf="estaEliminando(producto); else iconoEliminar">
+                  <mat-icon class="producto-card__delete--loading">hourglass_top</mat-icon>
+                </ng-container>
+                <ng-template #iconoEliminar>
+                  <mat-icon>delete</mat-icon>
+                </ng-template>
+              </button>
+            </div>
+          </mat-card-header>
+
+          <mat-card-content>
+            <dl>
+              <div>
+                <dt>ID</dt>
+                <dd>{{ producto.id ?? 'N/D' }}</dd>
+              </div>
+              <div>
+                <dt>Precio</dt>
+                <dd>{{ formatPrecio(producto.precio) | currency : 'COP' : 'symbol-narrow' : '1.0-0' }}</dd>
+              </div>
+              <div>
+                <dt>Cantidad</dt>
+                <dd>{{ producto.cantidad ?? 0 }}</dd>
+              </div>
+            </dl>
+          </mat-card-content>
+
+          <mat-card-actions>
+            <button
+              mat-stroked-button
+              color="accent"
+              type="button"
+              (click)="verDetalle(producto)"
+              [disabled]="estaEliminando(producto) || estaEditando(producto)"
+            >
+              Ver detalle
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+      <footer class="productos-section__footer" *ngIf="productos.length">
+        <p>Los productos se actualizan conforme se registran en el inventario.</p>
+      </footer>
+      <ng-template #productosVacios>
+        <div class="productos-vacios">
+          <mat-icon>inventory</mat-icon>
+          <p>No se encontraron productos registrados. Agrega artículos desde tu panel de administración.</p>
+        </div>
+      </ng-template>
+      </section>
+    </ng-container>
+  </ng-container>
+  <ng-template #productosError>
+    <section class="productos-section productos-section--error">
+      <div class="productos-error">
+        <mat-icon>error_outline</mat-icon>
+        <div>
+          <h2>Hubo un problema al cargar el inventario</h2>
+          <p>Intenta recargar la página o revisa la conexión con la API.</p>
+        </div>
+      </div>
+      <button mat-stroked-button color="accent" type="button" (click)="cargarProductos()">Reintentar</button>
+    </section>
+  </ng-template>
+  <ng-template #productosCargando>
+    <section class="productos-section productos-section--loading">
+      <div class="productos-loading-indicador">
+        <mat-icon>hourglass_top</mat-icon>
+        <p>Cargando inventario...</p>
+      </div>
+    </section>
+  </ng-template>
 </section>
